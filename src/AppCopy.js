@@ -16,13 +16,11 @@ const config = {
     measurementId: "G-SJCHNLVSTQ"
 }
 
-// initializing firebase, authentication, and firestore (database)
 firebase.initializeApp(config)
 
 const auth = firebase.auth(); 
 const firestore = firebase.firestore(); 
 
-// sign in handler
 function SignIn() {
   const signInWithGoogle = () => {
     const provider = new firebase.auth.GoogleAuthProvider(); 
@@ -45,8 +43,6 @@ function ChatMessage(props) {
 
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received'; 
 
-  console.log(props.message, auth)
-
   return (
     <>
       <div className={`message ${messageClass}`}>
@@ -58,30 +54,7 @@ function ChatMessage(props) {
 }
 
 function ChatRoom() {
-  // rendering messages
-
-  // not using react-firebase-hooks
-
-  // const messagesRef = firestore.collection('messages'); 
-  // const messages = messagesRef.orderBy('createdAt').limitToLast(20)
-  //   .get()
-  //   .then((res) => {
-  //     res.forEach((doc) => {
-  //       // doc.data() is never undefined for query doc snapshots
-  //       // console.log(doc.id, " => ", doc.data());
-  //       const data = doc.data(); 
-  //       return data.text
-  //     });
-
-  //     // console.log(res)
-  //     // return [res]
-  //   })
-  //   .catch((error) => {
-  //     console.log(error)
-  //   })
-  // console.log(messages)
-
-  // original: 
+  // rendering messages?
   const messagesRef = firestore.collection('messages'); 
   const query = messagesRef.orderBy('createdAt').limitToLast(25); 
 
@@ -89,39 +62,21 @@ function ChatRoom() {
 
   // sending messages?
 
-  // const [formValue, setFormValue] = useState(''); 
+  const [formValue, setFormValue] = useState(''); 
 
-  // const setFormValue = (event) => {
-  //   event.preventDefault(); 
-  //   return event.target.value
-  // }
-
-  const sendMessage = async (event) => {
-    event.preventDefault(); 
+  const sendMessage = async (e) => {
+    e.preventDefault(); 
 
     const { uid, photoURL } = auth.currentUser; 
-    const { formValue } = event.target
-    const message = formValue.value
 
-    // according to docs: 
-
-    firestore.collection('messages').add({
-      text: message, 
+    await messagesRef.add({
+      text: formValue, 
       createdAt: firebase.firestore.FieldValue.serverTimestamp(), 
       uid, 
       photoURL
     })
 
-    // await messagesRef.add({
-    //   text: formValue, 
-    //   createdAt: firebase.firestore.FieldValue.serverTimestamp(), 
-    //   uid, 
-    //   photoURL
-    // })
-
-    // setFormValue(''); 
-
-    console.log(message, uid, photoURL)
+    setFormValue(''); 
 
   }
 
@@ -130,9 +85,9 @@ function ChatRoom() {
     <>
       <main>
         {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
-        <form onSubmit={(event) => sendMessage(event)}>
-          <input type="text" id="formValue" placeholder="send a message!" />
-          <button type="submit" >Send</button>
+        <form onSubmit={sendMessage}>
+          <input value={formValue} onChange={(e) => setFormValue(e.target.value)} placeholder="send a message!" />
+          <button type="submit" disabled={!formValue}>Send</button>
         </form>
       </main>
     </>
@@ -142,8 +97,6 @@ function ChatRoom() {
 function App() {
 
   const [user] = useAuthState(auth); 
-
-  // console.log(process.env.REACT_APP_CONFIG)
 
   return (
     <div className="App">
