@@ -45,47 +45,56 @@ function ChatMessage(props) {
 
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received'; 
 
-  console.log(props.message, auth)
 
   return (
-    <>
-      <div className={`message ${messageClass}`}>
-        <img src={photoURL} />
-        <p>{text}</p>
-      </div>
-    </>
+    <div className={`message ${messageClass}`}>
+      {/* {
+        messageClass === 'received'
+        ? <><img src={photoURL} />
+        <div><div className="triangle"></div><p>{text}</p></div></>
+        : <><p>{text}</p>
+        <img src={photoURL} /></>
+      } */}
+      {
+        messageClass === 'received'
+        ? <><img src={photoURL} />
+        <p>{text}</p></>
+        : <><p>{text}</p>
+        <img src={photoURL} /></>
+      }
+    </div>
   )
 }
 
 function ChatRoom() {
   // rendering messages
 
-  // not using react-firebase-hooks
+  // not using react-firebase-hooks:
 
   // const messagesRef = firestore.collection('messages'); 
-  // const messages = messagesRef.orderBy('createdAt').limitToLast(20)
-  //   .get()
-  //   .then((res) => {
-  //     res.forEach((doc) => {
-  //       // doc.data() is never undefined for query doc snapshots
-  //       // console.log(doc.id, " => ", doc.data());
-  //       const data = doc.data(); 
-  //       return data.text
-  //     });
+  // const query = messagesRef.orderBy('createdAt').limit(20); 
+  // const messages = [];
 
-  //     // console.log(res)
-  //     // return [res]
+  // query.get()
+  // .then((res) => {
+  //   res.forEach((doc) => {
+  //     console.log(doc.data()); 
+  //     messages.push(doc.data()); 
+  //     console.log(messages)
   //   })
-  //   .catch((error) => {
-  //     console.log(error)
-  //   })
-  // console.log(messages)
+  // })
+  // .catch(error => {
+  //   return console.log(error)
+  // }); 
 
   // original: 
   const messagesRef = firestore.collection('messages'); 
   const query = messagesRef.orderBy('createdAt').limitToLast(25); 
 
-  const [messages] = useCollectionData(query, { idField: 'id' }); 
+  const [ messages ] = useCollectionData(query, { idField: 'id' }); 
+
+  console.log(messages)
+
 
   // sending messages?
 
@@ -112,6 +121,7 @@ function ChatRoom() {
       photoURL
     })
 
+
     // await messagesRef.add({
     //   text: formValue, 
     //   createdAt: firebase.firestore.FieldValue.serverTimestamp(), 
@@ -121,20 +131,21 @@ function ChatRoom() {
 
     // setFormValue(''); 
 
-    console.log(message, uid, photoURL)
-
   }
 
 
   return (
     <>
-      <main>
-        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+      <section>
+        <div className="messages-box">
+          {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+        </div>
         <form onSubmit={(event) => sendMessage(event)}>
-          <input type="text" id="formValue" placeholder="send a message!" />
+          {/* <input type="text" id="formValue" placeholder="send a message!" /> */}
+          <textarea id="formValue" placeholder="send a message!"></textarea><br/>
           <button type="submit" >Send</button>
         </form>
-      </main>
+      </section>
     </>
   )
 }
@@ -143,18 +154,16 @@ function App() {
 
   const [user] = useAuthState(auth); 
 
-  // console.log(process.env.REACT_APP_CONFIG)
-
+  console.log(user)
   return (
     <div className="App">
       <header>
-        <h1></h1>
-        <SignOut />
+        <h1>Chat!</h1>
       </header>
-      <section>
+      <main>
         {user ? <ChatRoom /> : <SignIn />}
-      </section>
-      
+        <SignOut />
+      </main>
     </div>
   );
 }

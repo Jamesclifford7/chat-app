@@ -2,3 +2,105 @@
   text-align: center;
 }
 
+.App h1 {
+  color: #30B2FF;
+}
+
+.App main section .messages-box {
+  border: solid;
+  /* border-color: #30B2FF; */
+  width: 70%;
+  margin: 0 auto;
+  border-radius: 25px;
+  height: 480px;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.App main section .messages-box .message {
+  /* border: solid; 
+  border-color: pink; */
+  margin: 0 auto;
+}
+
+.App main section .messages-box .sent {
+  text-align: right;
+}
+
+.App main section .messages-box .received {
+  text-align: left;
+}
+
+.App main section .messages-box .received .triangle {
+  background-color: green;
+}
+
+.App main section .messages-box .message img {
+  border-radius: 50%;
+  height: 50px;
+  /* margin: 20px 0 0 20px; */
+  padding: 10px;
+}
+
+.App main section .messages-box .message img, .App main section .messages-box .message p {
+  display: inline-block;
+  margin: 0 auto;
+}
+
+.App main section .messages-box .message p {
+  background-color: gainsboro;
+  padding: 20px;
+  border-radius: 25px;
+  margin-bottom: 10px;
+}
+
+.App main section .messages-box .sent p {
+  border-top-right-radius: 0;
+}
+
+.App main section .messages-box .received p {
+  border-top-left-radius: 0;
+}
+
+.App main section form {
+  /* padding: 30px; */
+  text-align: right;
+  margin: 0 auto;
+  margin-top: 20px;
+  /* border: solid; */
+  width: 47%;
+}
+
+.App main section form textarea {
+  width: 600px;
+  height: 60px;
+}
+
+.App main section form button {
+  margin: 10px;
+  background-color: #30B2FF;
+  padding: 5px;
+  /* width: 60px; */
+  padding-left: 25px;
+  padding-right: 25px;
+  border-radius: 25px;
+  color: white;
+  border: none;
+}
+
+.App main section form button:hover {
+  text-decoration: underline;
+}
+
+.App main button {
+  background-color: #30B2FF;
+  padding: 5px;
+  padding-left: 25px;
+  padding-right: 25px;
+  /* width: 60px; */
+  border-radius: 25px;
+  color: white;
+  border: none;
+  margin-bottom: 50px;
+}
+
