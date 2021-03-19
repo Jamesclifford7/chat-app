@@ -14,7 +14,8 @@
   border-radius: 25px;
   height: 480px;
   overflow: auto;
-  white-space: nowrap;
+  overflow-x: hidden;
+  /* white-space: nowrap; */
 }
 
 .App main section .messages-box .message {
@@ -29,10 +30,6 @@
 
 .App main section .messages-box .received {
   text-align: left;
-}
-
-.App main section .messages-box .received .triangle {
-  background-color: green;
 }
 
 .App main section .messages-box .message img {
@@ -52,6 +49,9 @@
   padding: 20px;
   border-radius: 25px;
   margin-bottom: 10px;
+  width: 70%;
+  /* width: 50%; */
+  word-wrap: break-word;
 }
 
 .App main section .messages-box .sent p {

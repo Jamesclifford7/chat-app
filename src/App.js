@@ -48,13 +48,6 @@ function ChatMessage(props) {
 
   return (
     <div className={`message ${messageClass}`}>
-      {/* {
-        messageClass === 'received'
-        ? <><img src={photoURL} />
-        <div><div className="triangle"></div><p>{text}</p></div></>
-        : <><p>{text}</p>
-        <img src={photoURL} /></>
-      } */}
       {
         messageClass === 'received'
         ? <><img src={photoURL} />
