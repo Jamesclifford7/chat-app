@@ -112,7 +112,10 @@ function ChatRoom() {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(), 
       uid, 
       photoURL
-    })
+    }); 
+
+    // clearing the input after a message has been sent
+    document.getElementById('formValue').value = ""; 
 
 
     // await messagesRef.add({
@@ -126,12 +129,21 @@ function ChatRoom() {
 
   }
 
+  // auto scrolling to bottom of messages div after new message is added
+
+  const messagesEndRef = useRef(null)
+
+  useEffect(() => {
+    messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
+  })
+
 
   return (
     <>
       <section>
         <div className="messages-box">
           {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+          <div ref={messagesEndRef}></div>
         </div>
         <form onSubmit={(event) => sendMessage(event)}>
           {/* <input type="text" id="formValue" placeholder="send a message!" /> */}
